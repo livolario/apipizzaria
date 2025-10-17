@@ -61,7 +61,7 @@ app.post('/clientes', (req, res) => {
     //O middleware express.json() pega o corpo da requisição e o coloca em req.body
     const novoCliente = req.body;
 
-    console.log("Recebemos um novo cliente:", novoCliente);
+    console.log("Criamos um novo cliente:", novoCliente)
 
     res.json({message: `Cliente ${novoCliente.nome} cadastro com sucesso!`, data: novoCliente});
 });
