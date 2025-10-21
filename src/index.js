@@ -1,27 +1,53 @@
 //Atualizar o index.js
+import 'dotenv/config';
 
 //1. Importa a ferramenta Express
-import express, { request, response } from 'express'
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url'; //Necessário para recriar o '__dirname'.
+import db from './db/db.js'; //excluir depois
+
+// --- Configurações ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const corsOptions = {
+    origin: ['http://localhost:3333', 'https://meudominio.com'],
+    methods: 'GET,POST,PUT,PATCH,DELETE',
+    credentials: true,
+};
 
 //2. Cria a nossa aplicação (nosso servidor)
 const app = express();
 
-//Habilita o Express para entender o formato JSON no corpo das requisições
+
+//---- MIDDLEWARES ----
+app.use(helmet());
+app.use(cors(corsOptions));
+app.use(morgan('dev'))
 app.use(express.json());
 
-//3. Define a porta em que o servidor vai "escutar" os pedidos
-const PORTA = 3333;
+//Servindo a pasta 'public' para arquivos estáticos (CSS, JS, imagens).
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-//Rota principal da aplicação
+//--- ROTAS ---
+//Rota principal que serve a página HTML
 app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname, '..', 'pages', 'home.html'));//alterar
     //req = requisição (dados do pedido do cliente)
     // res = resposta (o que vamos enviar de volta)
-
-    //Estamos enviando uma resposta no formato JSON
-    response.json({message: `Bem-vindo à API da Pizzaria Senac!`});
+});
+// --- TRATAMENTO DE ERROS ---
+// Um middleware de erro centralizado
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Algo deu errado no servidor!');
 });
 
-//4. Manda o servidor ficar "escutando" na porta definida
+//Inicialização do servidor
+const PORTA = process.env.PORT || 3333;
 app.listen(PORTA, () => {
     console.log(`Servidor rodando na porta ${PORTA}. Acesse http://localhost:${PORTA}`)
 
