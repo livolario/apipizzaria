@@ -8,7 +8,15 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url'; //Necessário para recriar o '__dirname'.
-import db from './db/db.js'; //excluir depois
+
+// //Importando as rotas.
+// Importa as rotas de autenticação
+//import authRoutes from './routes/authRoutes.js';
+import authRoutes from './routes/authRoutes.js'; 
+
+import clienteRoutes from './routes/clienteRoutes.js';
+
+//import produtoRoutes from './routes/produtoRoutes.js';
 
 // --- Configurações ---
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +47,15 @@ app.get('/', (request, response) => {
     //req = requisição (dados do pedido do cliente)
     // res = resposta (o que vamos enviar de volta)
 });
+//Rotas da API prefixadas, isso evita conflitos e deixa claro quais rotas pertencem à API
+const apiPrefix = '/api';
+//Rotas gerais da API (ex: /api/sandro)
+app.use(`${apiPrefix}/clientes`, clienteRoutes); // ex.: /api/clientes/
+
+app.use(`${apiPrefix}/login`, authRoutes); //Rota de login ex.: /api/login
+
+//app.use(`${apiPrefix}/produtos`, produtoRoutes); //ex: /api/produtos/
+
 // --- TRATAMENTO DE ERROS ---
 // Um middleware de erro centralizado
 app.use((err, req, res, next) => {

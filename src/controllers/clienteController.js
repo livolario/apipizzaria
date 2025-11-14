@@ -1,6 +1,6 @@
 //Usamos 'import * as' para agrupar todas as exportações do service
 import * as clienteService from '../services/clienteService.js';
-import Joi, { allow } from 'joi';
+import Joi from 'joi';
 
 //Usando 'export const'
 export const clienteCreateSchema = Joi.object({
@@ -67,13 +67,13 @@ export const atualizarCliente = async (req, res) => {
     try {
         const { cpf } = req.params;
         const update = await clienteService.update(cpf, req.body);
-        if (!updated) {
+        if (!update) {
             return res.status(404).json({ error: 'Cliente não encontrado'});
         }
         res.status(200).json({message: 'Cliente atualizado com sucesso'});
     } catch (err) {
         console.error('Erro ao atualizar cliente:', err);
-        res.status(500).json({error: 'Erro ao atualizar cliente'})
+        res.status(500).json({err: 'Erro ao atualizar cliente'})
     }
 };
 

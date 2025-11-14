@@ -27,6 +27,7 @@ export const create = async (clienteData) => {
     const newCliente = {
         ...clienteData,
         senha: hashedPassword,
+        
     };
 
     await db.query('INSERT INT cliente SET ?', newCliente);
