@@ -16,7 +16,7 @@ import authRoutes from './routes/authRoutes.js';
 
 import clienteRoutes from './routes/clienteRoutes.js';
 
-//import produtoRoutes from './routes/produtoRoutes.js';
+import produtoRoutes from './routes/produtoRoutes.js';
 
 // --- Configurações ---
 const __filename = fileURLToPath(import.meta.url);
@@ -54,7 +54,7 @@ app.use(`${apiPrefix}/clientes`, clienteRoutes); // ex.: /api/clientes/
 
 app.use(`${apiPrefix}/login`, authRoutes); //Rota de login ex.: /api/login
 
-//app.use(`${apiPrefix}/produtos`, produtoRoutes); //ex: /api/produtos/
+app.use(`${apiPrefix}/produtos`, produtoRoutes); //ex: /api/produtos/
 
 // --- TRATAMENTO DE ERROS ---
 // Um middleware de erro centralizado
