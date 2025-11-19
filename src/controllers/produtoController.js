@@ -7,7 +7,8 @@ export const produtoCreateSchema = Joi.object({
     nome: Joi.string().required(),
     descricao:Joi.string().required(),
     tipo: Joi.string().required(),
-    imagem: Joi.string().required()
+    imagem: Joi.string().required(),
+    valor: Joi.number().positive().required()
 })
 
 //Schema para atualização (todos os campos opcionais)
@@ -17,7 +18,8 @@ export const produtoUpdateSchema = Joi.object ({
     nome: Joi.string(),
     descricao: Joi.string(),
     tipo: Joi.string(),
-    imagem: Joi.string()
+    imagem: Joi.string(),
+    valor: Joi.number().positive()
 }).min(1)
 
 export const listarProdutos = async (req, res) => {

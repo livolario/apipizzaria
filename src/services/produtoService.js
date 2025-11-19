@@ -1,7 +1,7 @@
 //scr/services/produtoService.js
 import db from '../db/db.js'
 
-export const findAll = async (minValor, maxValor, nome, id, tipo) => {
+export const findAll = async (minValor, maxValor, nome, id) => {
     //1. Define a consulta SQL base
     let sql = 'SELECT * FROM produto';
     //2. Cria um array para as condições WHERE
@@ -29,8 +29,6 @@ export const findAll = async (minValor, maxValor, nome, id, tipo) => {
         conditions.push('LOWER(nome) LIKE ?');
         values.push(`%${nome.toLowerCase()}%`);
     }
-
-
 
     //5. se houver condições, anexa elas à consulta SQL
     if (conditions.length > 0) {
